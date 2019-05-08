@@ -1,6 +1,6 @@
 # Gate_Circuit_to_Annealer_Embedding
 
-This project is described in detail in the paper "Automatically Translating Quantum Progras from a Subset of Common Gates to An Adiabatic Representation"
+This project is described in detail in the paper "Automatically Translating Quantum Programs from a Subset of Common Gates to An Adiabatic Representation"
 
 -----------------------------------------------------------------------------
 
