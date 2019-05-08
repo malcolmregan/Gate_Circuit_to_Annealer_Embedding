@@ -12,7 +12,7 @@ Running Qiskit scripts with the converter:
 
 2) Set token variable at the top of the ```execute``` function in ```converter/qiskit/tools/_compiler.py``` to your Dwave token as a string, i.e.
 
-      ```token = 'DEV-######## numbers_and_letters ###########'```
+      ```token = 'DEV-########################################'```
 
       If this variable is not set you will be prompted to enter it when the script is run.
 
