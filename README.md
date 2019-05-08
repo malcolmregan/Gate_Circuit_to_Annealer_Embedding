@@ -4,6 +4,8 @@ This project is described in detail in the paper "Automatically Translating Quan
 
 -----------------------------------------------------------------------------
 
+Running Qiskit scripts with the converter:
+
 1) To run examples, add base directory of repository to PYTHONPATH, i.e. go to repository directory and type
 
       ```export PYTHONPATH=`pwd` ```
@@ -22,7 +24,7 @@ This project is described in detail in the paper "Automatically Translating Quan
         
         ```python example_script.py sim```
      
-ExactSolver simulations of embeddings comprised of more than 19 qubits is not recommended. It can take a very long time or cause your computer to crash. If simulation of an embedding with more than 19 qubits is
+      ExactSolver simulations of embeddings comprised of more than 19 qubits is not recommended. It can take a very long time or cause your computer to crash. If simulation of an embedding with more than 19 qubits is
      
   ```run``` flag - Run generated embedding on DWave (this is default - no flag required) 
         
