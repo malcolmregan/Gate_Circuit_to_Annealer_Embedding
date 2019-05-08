@@ -25,7 +25,7 @@ This project is described in detail in the paper "Automatically Translating Quan
         
         python example_script.py sim
      
-      NOTE: ExactSolver simulations of embeddings comprised of more than 19 qubits is not recommended. It can take a very long time or cause your computer to crash. If simulation of an embedding with more than 19 qubits is attempted a warning a warning is issued.
+      NOTE: ExactSolver simulations of embeddings comprised of more than 19 qubits is not recommended. It can take a very long time or cause your computer to crash. If simulation of an embedding with more than 19 qubits is attempted a warning is issued.
      
       ```run``` flag - Run generated embedding on DWave (this is default - no flag required) 
         
