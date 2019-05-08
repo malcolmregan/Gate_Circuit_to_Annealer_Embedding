@@ -6,7 +6,7 @@ This project is described in detail in the paper "Automatically Translating Quan
 
 Running Qiskit scripts with the converter:
 
-1) To run examples, add base directory of repository to PYTHONPATH, i.e. go to repository directory and type
+1) To run examples, add base directory of repository to ```PYTHONPATH```, i.e. go to repository directory and type
 
       ```export PYTHONPATH=`pwd` ```
 
