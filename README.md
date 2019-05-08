@@ -2,4 +2,4 @@
 
 To run examples, add base directory of repository to PYTHONPATH, i.e.
 
-```export PYTHONPATH=`pwd```
+```export PYTHONPATH=`pwd` ```
