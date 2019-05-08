@@ -6,13 +6,13 @@ This project is described in detail in the paper "Automatically Translating Quan
 
 1) To run examples, add base directory of repository to PYTHONPATH, i.e. go to repository directory and type
 
-```export PYTHONPATH=`pwd` ```
+      ```export PYTHONPATH=`pwd` ```
 
 2) Set token variable at the top of the ```execute``` function in ```converter/qiskit/tools/_compiler.py``` to your Dwave token asa string, i.e.
 
-  ```token = 'DEV-######## numbers_and_letters ###########'```
+      ```token = 'DEV-######## numbers_and_letters ###########'```
 
-If this variable is not set you will be prompted to enter it when the script is run.
+      If this variable is not set you will be prompted to enter it when the script is run.
 
 3) In qiskit scripts to be translated, change the line ```import qiskit``` to ```import converter.qiskit```
 
