@@ -3,7 +3,7 @@
 from copy import deepcopy
 import uuid
 import logging
-
+import sys
 
 #from converter.qiskit import transpiler
 #from converter.qiskit.transpiler._passmanager import PassManager
@@ -57,9 +57,12 @@ def execute(circuit, backend = None,
             shots=1024, max_credits=10, seed=None, qobj_id=None, hpc=None,
             skip_transpiler=False, seed_mapper=None):
 
+    #token = 'DEV-beb5d0babc40334f66b655704f1b5315917b4c41'
+    token = ''
+
     outputs = list()
     inputs = list()
-
+    
     qubit_biases = circuit.annealergraph.qubitbiases
     coupler_strengths = circuit.annealergraph.couplerstrengths
 
@@ -91,14 +94,19 @@ def execute(circuit, backend = None,
                 else:
                     inputs.append(circuit.annealergraph.qubits[qubit]['components'][0])
             
-    
     circuit.annealergraph.print_chimera_graph_to_file()
+ 
+    if token == '':
+        token = input('Please set token variable at the top of the "execute" function in /converter/qiskit/tools/_compiler.py to your DWave token as a string. Or, you can enter it here: ')
 
-    sampler = circuit.annealergraph.sampler #DWaveSampler(endpoint='https://cloud.dwavesys.com/sapi', token = 'DEV-beb5d0babc40334f66b655704f1b5315917b4c41', solver = 'DW_2000Q_2_1')
-    
     samp = input("\nHow many samples? ")
     samp = int(samp)
-    if samp > 0:
+
+    if 'source' in sys.argv:
+        writedwavesource(circuit, token, samp)
+
+    if ('run' in sys.argv) or (len(sys.argv)==1):
+        sampler = circuit.annealergraph.sampler
         bqm = dimod.BinaryQuadraticModel(qubit_biases, coupler_strengths, 0, dimod.BINARY)
         print(qubit_biases)
         print(coupler_strengths)
@@ -139,46 +147,52 @@ def execute(circuit, backend = None,
         for i in range(len(function)):
             print(function[i])
 
-    if len(circuit.annealergraph.qubitbiases) <= 19:
-        # ExactSolver simulation
-        print("\nExactSolver Check:")
-        print("Simulating problem with {} qubits".format(len(circuit.annealergraph.qubitbiases)))
-        qubit_biases = circuit.annealergraph.qubitbiases
-        coupler_strengths = circuit.annealergraph.couplerstrengths
+    if 'sim' in sys.argv:
+        ans = 'y'
+        if len(circuit.annealergraph.qubitbiases) > 19:
+            ans = input("WARNING: Embedding uses {} qubits - ExactSolver simulation could take way too long or cause your computer to crash. Type 'y' to continue: ".format(len(circuit.annealergraph.qubitbiases)))
         
-        print("\nQubit Biases:")
-        for key in qubit_biases.keys():
-            print(key, "\t", qubit_biases[key])
-        print("\nCoupler Strengths:")
-        for key in coupler_strengths.keys():
-            print(key, "\t", coupler_strengths[key])
-        print("\n")
+        if ans == 'y' or ans == 'Y':
+            print("Simulating problem with {} qubits".format(len(circuit.annealergraph.qubitbiases)))
+            qubit_biases = circuit.annealergraph.qubitbiases
+            coupler_strengths = circuit.annealergraph.couplerstrengths
+        
+            print("\nQubit Biases:")
+            for key in qubit_biases.keys():
+                print(key, "\t", qubit_biases[key])
+            print("\nCoupler Strengths:")
+            for key in coupler_strengths.keys():
+                print(key, "\t", coupler_strengths[key])
+            print("\n")
 
-        bqm = dimod.BinaryQuadraticModel(qubit_biases, coupler_strengths, 0, dimod.BINARY)
-        sampler = dimod.ExactSolver()
+            bqm = dimod.BinaryQuadraticModel(qubit_biases, coupler_strengths, 0, dimod.BINARY)
+            sampler = dimod.ExactSolver()
     
-        response = sampler.sample(bqm)
+            response = sampler.sample(bqm)
 
-        groundstate = 1000000
-        for sample, energy in response.data(['sample','energy']):
-            if energy<groundstate:
-                groundstate = round(energy,1)
+            groundstate = 1000000
+            for sample, energy in response.data(['sample','energy']):
+                if energy<groundstate:
+                    groundstate = round(energy,1)
         
-        print("Ground State: ", groundstate)
-        function = list()
-        for sample, energy in response.data(['sample', 'energy']):
-            if round(energy,1) == groundstate:
-                print(sample, round(energy,1))
-                row = []
-                for inp in inputs:
-                    row.append(sample[inp])
-                for outp in outputs:
-                    row.append(sample[outp])
-                function.append(row)
-        print('\n')
+            print("Ground State: ", groundstate)
+            function = list()
+            for sample, energy in response.data(['sample', 'energy']):
+                if round(energy,1) == groundstate:
+                    print(sample, round(energy,1))
+                    row = []
+                    for inp in inputs:
+                        row.append(sample[inp])
+                    for outp in outputs:
+                        row.append(sample[outp])
+                    function.append(row)
+            print('\n')
 
-        function.sort()
-        for i in range(len(function)):
-            print(function[i])
-    else:
-        print("\nProblem too large to simulate. Used {} qubits".format(len(circuit.annealergraph.qubitbiases)))
+            function.sort()
+            for i in range(len(function)):
+                print(function[i])
+        else:
+            print('Quitting.')
+    
+def writedwavesource(circ, token, samp):
+    print('in write source')
