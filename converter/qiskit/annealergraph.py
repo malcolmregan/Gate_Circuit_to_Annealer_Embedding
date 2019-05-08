@@ -14,7 +14,6 @@ class annealer_graph():
                                    744, 728, 984, 968, 712, 696, 952, 936, 680, 664, 920, 904,
                                    1160,1176,1432,1448,1192,1208,1464,1480,1224,1240,1496,1512,
                                    1768,1752,2008,1992,1736,1720,1976,1960,1704,1688,1944,1928,1672]  
-        self.sampler = DWaveSampler(endpoint='https://cloud.dwavesys.com/sapi', token = 'DEV-beb5d0babc40334f66b655704f1b5315917b4c41', solver = 'DW_2000Q_2_1')
         self.fullnodelist = [i for i in range(2048)]
         self.fulledgelist = self.generatefulledgelist()
         self.numgatecouplers = 0
