@@ -1,4 +1,4 @@
-# IBM Gate Circuit to DWave Annealer Embedding Translation
+# IBM Gate Circuit to DWave Annealer Embedding Translator
 
 This project is described in detail in the paper "Automatically Translating Quantum Programs from a Subset of Common Gates to An Adiabatic Representation"
 
