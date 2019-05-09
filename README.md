@@ -4,7 +4,7 @@ This project is described in detail in the paper "Automatically Translating Quan
 
 -----------------------------------------------------------------------------
 
-## Running Qiskit scripts with the converter:
+## Running Qiskit scripts with the converter
 
 1) To run examples, add base directory of repository to ```PYTHONPATH```, i.e. go to repository directory and type
 
@@ -40,3 +40,14 @@ This project is described in detail in the paper "Automatically Translating Quan
       Any combination of these flags will work 
         
         python example_script.py run sim source
+
+
+-----------------------------------------------------------------------------
+
+## Notes
+
+
+
+-----------------------------------------------------------------------------
+
+## To Do
