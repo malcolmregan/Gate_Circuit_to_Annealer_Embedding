@@ -46,6 +46,47 @@ This project is described in detail in the paper "Automatically Translating Quan
 
 ## Example
 
+The  sample  Qiskit  program  below  defines  a  1-qubit  adder  circuit.  Note  that  the  imports  have  been  modified  to  indicate  the  use of the gate-circuit-to-annealer embedding translator (i.e., ’converter.qiskit’ replaces ’qiskit’). This is the only modification that is required to run a Qiskit program with the translator code.
+
+
+```
+from converter.qiskit import QuantumRegister, ClassicalRegister
+from converter.qiskit import QuantumCircuit, execute
+
+# Input Registers: a = qi[0]; b = qi[1]; ci = qi[2]
+qi = QuantumRegister(3)
+ci = ClassicalRegister(3)
+
+# Output Registers: s = qo[0]; co = qo[1]
+qo = QuantumRegister(2)
+co = ClassicalRegister(2)
+
+circuit = QuantumCircuit(qi,qo,ci,co)
+
+# Define adder circuit
+
+for idx in range(3):
+      circuit.ccx(qi[idx], qi[(idx+1)%3], qo[1])
+for idx in range(3):
+      circuit.cx(qi[idx], qo[0])
+
+circuit.measure(qo, co)
+
+# Run
+execute(circuit)
+```
+
+The measure method is used as an indication that a given qubit register isconsidered a circuit output, which aids in organizing the results. When  the execute method  is called,  the  user  is  prompted  to  answer  whether  or  not  initial  values  of  qubits should be constrained to zero. Qubits are identified using Qiskit’s naming scheme in the program and by the order with which they appeared in the initialization of the Quantum Circuit. In the case of the 1-qubit adder above, the user would like for the initial state of the sum and carry-out qubits be constrained to zero, and so responds to the prompts from execute as follows:
+
+```
+Constrain input of measured qubit q1_0 to be 0 (y/n)? y
+Constrain input of measured qubit q1_1 to be 0 (y/n)? y
+Constrain input of unmeasured qubit q0_0 to be 0 (y/n)? n
+Constrain input of unmeasured qubit q0_1 to be 0 (y/n)? n
+Constrain input of unmeasured qubit q0_2 to be 0 (y/n)? n
+```
+
+
 
 -----------------------------------------------------------------------------
 
