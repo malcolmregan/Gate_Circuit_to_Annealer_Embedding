@@ -111,10 +111,9 @@ If the ```source``` command line flag is given, a script which defines and runs 
 
 ## Notes
 
-- Due to limitations of the current mapping algorithm, Qiskit gate circuit definitions should be written so that gate operations on a given qubit happen as closely to eachother as possible. This eliminates the need for long chains in the embedding, which sometimes cannot be routed suvvessfully to their destination. Further, long chains have been demonstrated to prevent an embedding from annealing down to all of its ground states.
-- When the mapping algorithm attempts to make a connection that it cannot make, this is reported as an error message. Often, however, when this error is encountered, another valid connection is made and the generated embedding will work.
-- Before an embedding is generated, the user is prompted to answer whether or not the mapping algorithm should avoid gate cells that contain broken qubits or gate cells that contain qubits with broken couplers. Sometimes the mapping goes smoother if these cells are avoided and sometimes it surprisingly works better if they are not - it depends on where the faulty graph elements are located and what the gate circuit is. 
-
+- Due to limitations of the current mapping algorithm, Qiskit gate circuit definitions should be written so that gate operations on a given qubit happen as closely to eachother as possible. This eliminates the need for long chains in the embedding, which sometimes cannot be routed successfully to their destination. Further, long chains have been demonstrated to prevent an embedding from annealing down to all of its ground states.
+- When the mapping algorithm attempts to make a connection that it cannot make, this is reported as an error message. Often however, when this error is encountered, another valid connection is made and the generated embedding will work.
+- Before an embedding is generated, the user is prompted to answer whether or not the mapping algorithm should avoid gate cells that contain broken qubits or gate cells that contain qubits with broken couplers. Sometimes the mapping goes smoother if these cells are avoided and sometimes it surprisingly works better if they are not. The proper answers to these prompts depend on where the faulty graph elements are located and what the gate circuit definition. 
 
 -----------------------------------------------------------------------------
 
