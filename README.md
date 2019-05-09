@@ -105,7 +105,7 @@ Results are presented with inputs on the left and outputs on the right, in the o
 
 If the ```sim``` command line flag is given, an attempt to run ExactSolver on the embedding will be made. However, the 1-qubit adder is too large and will either take an unreasonable amount of time or cause your computer to crash.
 
-If the ```source``` command line flag is given, a script which defines and runs the generated embedding is created. This can allow the user to debug or otherwise improve the generated embedding. For the 1-qubit adder example, please see the generated source script, ```one_qubit_adder_Dwave.py```, in the examples directory. When this file is run (```python one_qubit_adder_Dwave.py```), it reports results in the same way that was described above.
+If the ```source``` command line flag is given, a script which defines and runs the generated embedding is created. This can allow the user to debug or otherwise improve the generated embedding. For the 1-qubit adder example, please see the generated source script, ```one_qubit_adder_Dwave.py```, in the examples directory. When this file is run, the defined embedding is submitted to DWave hardware, annealed, and results are reported in the same way that was described above.
 
 -----------------------------------------------------------------------------
 
@@ -116,3 +116,7 @@ If the ```source``` command line flag is given, a script which defines and runs 
 -----------------------------------------------------------------------------
 
 ## To Do
+
+- Improve mapping algorithm
+- Implement graph reduction
+- Find second degree of freedom to implement phase gates -- berry curvature coupling btwn SQUIDS??
