@@ -1,6 +1,6 @@
 # IBM Gate Circuit to DWave Annealer Embedding Translator
 
-This project is described in detail in the paper "Automatically Translating Quantum Programs from a Subset of Common Gates to An Adiabatic Representation"
+This project is described in detail in the paper "Automatically Translating Quantum Programs from a Subset of Common Gates to an Adiabatic Representation" by Malcolm Regan, Brody Eastwood, Mahita Nagabhiru, and Frank Mueller.
 
 -----------------------------------------------------------------------------
 
