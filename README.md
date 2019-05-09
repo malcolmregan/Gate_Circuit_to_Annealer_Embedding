@@ -121,4 +121,4 @@ If the ```source``` command line flag is given, a script which defines and runs 
 
 - Improve mapping algorithm
 - Implement graph reduction
-- Find second degree of freedom to implement phase gates -- Berry phase coupling btwn SQUIDS??
+- Implement support for phase gates -- Berry phase coupling btwn SQUIDS as 2nd degree of freedom??
