@@ -35,7 +35,7 @@ This project is described in detail in the paper "Automatically Translating Quan
         
         python example_script.py source
        
-      Running a script with the ```source``` flag will generate a Dwave ocean file, ```example_script_Dwave.py``` that can be used to debug or otherwise improve the generated embedding.
+      Running a script with the ```source``` flag will generate a Dwave ocean file, ```example_script_Dwave.py```, that can be used to debug or otherwise improve the generated embedding.
         
       Any combination of these flags will work 
         
