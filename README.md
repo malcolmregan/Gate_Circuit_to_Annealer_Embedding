@@ -16,7 +16,7 @@ This project is described in detail in the paper "Automatically Translating Quan
 
       If this variable is not set you will be prompted to enter it when the script is run.
 
-3) In qiskit scripts to be translated, change the line ```import qiskit``` to ```import converter.qiskit```
+3) In Qiskit scripts to be translated, change the line ```import qiskit``` to ```import converter.qiskit```
 
 
 4) Command line flags:
