@@ -6,15 +6,17 @@ This project is described in detail in the paper "Automatically Translating Quan
 
 ## Running Qiskit scripts with the converter
 
+0) To run or simulate generated emebeddings DWave Ocean Python package is required. See https://docs.ocean.dwavesys.com/en/latest/overview/install.html.
+
 1) To run examples, add base directory of repository to ```PYTHONPATH```, i.e. go to repository directory and type
 
       ```export PYTHONPATH=`pwd` ```
 
-2) Set token variable at the top of the ```execute``` function in ```converter/qiskit/tools/_compiler.py``` to your Dwave token as a string, i.e.
+2) Set ```self.token``` variable at the top of the ```annealer_graph``` class in ```converter/qiskit/annealer_graph.py``` to your Dwave token as a string, i.e.
 
       ```token = 'DEV-########################################'```
 
-      If this variable is not set you will be prompted to enter it when the script is run.
+      This variable must be set to run generated embeddings on DWave hardware.
 
 3) In Qiskit scripts to be translated, change the line ```import qiskit``` to ```import converter.qiskit```
 
@@ -25,17 +27,21 @@ This project is described in detail in the paper "Automatically Translating Quan
         
         python example_script.py sim
      
+      Simulation requires that DWave Ocean be installed
+     
       NOTE: ExactSolver simulations of embeddings comprised of more than 19 qubits is not recommended. It can take a very long time or cause your computer to crash. If simulation of an embedding with more than 19 qubits is attempted a warning is issued.
      
       ```run``` flag - Run generated embedding on DWave (this is default - no flag required) 
         
         python example_script.py run
-        
+      
+      Running embeddings requires that DWave Ocean be installed and also requires a Dwave Ocean access token. 
+      
       ```source``` flag -  Generate DWave Ocean script.
         
         python example_script.py source
        
-      Running a script with the ```source``` flag will generate a Dwave ocean file, ```example_script_Dwave.py```, that can be used to debug or otherwise improve the generated embedding.
+      Running a script with the ```source``` flag will generate a Dwave ocean file, ```example_script_Dwave.py```, that can be used to debug or otherwise improve the generated embedding. This does not require DWave Ocean to be installed nor does it require an acess token.
         
       Any combination of these flags will work 
         
