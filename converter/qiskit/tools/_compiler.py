@@ -10,11 +10,6 @@ import sys
 #from converter.qiskit.qobj import Qobj, QobjConfig, QobjExperiment, QobjItem, QobjHeader
 #from converter.qiskit.unroll import DagUnroller, JsonBackend
 #from converter.qiskit.transpiler._parallel import parallel_map
-import dimod
-from dwave.system.samplers import DWaveSampler
-from dwave.cloud.exceptions import SolverOfflineError
-from dwave.system.composites import EmbeddingComposite
-import minorminer
 
 def compile(circuits, backend,
             config=None, basis_gates=None, coupling_map=None, initial_layout=None,
@@ -57,9 +52,6 @@ def execute(circuit, backend = None,
             shots=1024, max_credits=10, seed=None, qobj_id=None, hpc=None,
             skip_transpiler=False, seed_mapper=None):
 
-    #token = 'DEV-beb5d0babc40334f66b655704f1b5315917b4c41'
-    token = ''
-
     outputs = list()
     inputs = list()
     
@@ -96,17 +88,24 @@ def execute(circuit, backend = None,
             
     circuit.annealergraph.print_chimera_graph_to_file()
  
-    if token == '':
-        token = input('Please set token variable at the top of the "execute" function in /converter/qiskit/tools/_compiler.py to your DWave token as a string. Or, you can enter it here: ')
-
     samp = input("\nHow many samples? ")
     samp = int(samp)
 
     if 'source' in sys.argv:
-        writedwavesource(circuit, token, samp, inputs, outputs)
+        writedwavesource(circuit, circuit.annealergraph.token, samp, inputs, outputs)
 
     if ('run' in sys.argv) or (len(sys.argv)==1):
-        sampler = DWaveSampler(endpoint='https://cloud.dwavesys.com/sapi', token = token, solver = 'DW_2000Q_2_1')
+        try:
+            import dimod
+            from dwave.system.samplers import DWaveSampler
+            from dwave.cloud.exceptions import SolverOfflineError
+            from dwave.system.composites import EmbeddingComposite
+            import minorminer
+        except:
+            print('Dwave Ocean not installed - cannot run or simulate generated embeddings. Run with "source" command line argument or install DWave Ocean.')
+            return
+
+        sampler = DWaveSampler(endpoint='https://cloud.dwavesys.com/sapi', token = circuit.annealergraph.token, solver = 'DW_2000Q_2_1')
         bqm = dimod.BinaryQuadraticModel(qubit_biases, coupler_strengths, 0, dimod.BINARY)
         print(qubit_biases)
         print(coupler_strengths)
@@ -148,6 +147,17 @@ def execute(circuit, backend = None,
             print(function[i])
 
     if 'sim' in sys.argv:
+        try:
+            import dimod
+            from dwave.system.samplers import DWaveSampler
+            from dwave.cloud.exceptions import SolverOfflineError
+            from dwave.system.composites import EmbeddingComposite
+            import minorminer
+        except:
+            print('Dwave Ocean not installed - cannot run or simulate generated embedding. Run with "source" command line argument or install DWave Ocean.')
+            return
+
+
         ans = 'y'
         if len(circuit.annealergraph.qubitbiases) > 19:
             ans = input("WARNING: Embedding uses {} qubits - ExactSolver simulation could take way too long or cause your computer to crash. Type 'y' to continue: ".format(len(circuit.annealergraph.qubitbiases)))

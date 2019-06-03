@@ -2,10 +2,13 @@ from converter.qiskit._quantumregister import QuantumRegister
 from converter.qiskit._classicalregister import ClassicalRegister
 from dwave.system.samplers import DWaveSampler
 from math import floor, copysign
-
+import sys
                 
 class annealer_graph():
     def __init__(self, regs):
+        self.token = ''
+        #self.token = 'DEV-beb5d0babc40334f66b655704f1b5315917b4c41'
+
         self.qubits = self.getqubitnames(regs)
         self.qubitbiases = {}
         self.couplerstrengths = {}
@@ -17,45 +20,63 @@ class annealer_graph():
         self.fullnodelist = [i for i in range(2048)]
         self.fulledgelist = self.generatefulledgelist()
         self.numgatecouplers = 0
-
-        self.unavailablenodes = list()
-        for i in range(len(self.fullnodelist)):
-            if self.fullnodelist[i] not in self.sampler.nodelist:
-                #print(self.fullnodelist[i])
-                self.unavailablenodes.append(self.fullnodelist[i])
-        print("{} qubits unavailable".format(len(self.unavailablenodes)))
-
+        
         self.unavailablecouplers = list()
-        for i in range(len(self.fulledgelist)):
-            if self.fulledgelist[i] not in self.sampler.edgelist:
-                #print(self.fulledgelist[i])
-                #if (self.fulledgelist[i][0] not in self.unavailablenodes) and (self.fulledgelist[i][1] not in self.unavailablenodes):
-                #    print("  ^^^!!!")
-                self.unavailablecouplers.append(self.fulledgelist[i])
-        print("{} couplers unavailable".format(len(self.unavailablecouplers)),"\n")
-       
+        self.unavailablenodes = list()
         self.dontuse = list()
         self.skipgates = list()
-        dont = input("Avoid use of qubits coupled to broken qubits (y/n)? ")
-        # still should put broken qubits in list though - make it do this later
-        if dont == 'y':
-            for n in self.unavailablenodes:
-                self.dontuse.append(n)
-            for c in self.unavailablecouplers:
-                if c[0] not in self.dontuse:
-                    self.dontuse.append(c[0])
-                if c[1] not in self.dontuse:
-                    self.dontuse.append(c[1])
 
-        # remove gatecells that contain broken qubits
-        skip = input("Skip gate cells with broken qubits (y/n)? ")
-        if skip == 'y':
-            for node in self.dontuse:
-                unavailtopleft = node - node%8
-                if unavailtopleft in self.topleftofgatecells:
-                    if self.topleftofgatecells.index(unavailtopleft) not in self.skipgates:
-                        self.skipgates.append(self.topleftofgatecells.index(unavailtopleft))
-                        print("Not using gate cell {} due to unavailability of qubit {} or because of the unavailabilty of couplers associated with it.".format(self.skipgates[-1], node))
+        if 'run' in sys.argv or len(sys.argv)==1:
+            if self.token == '':
+                raise ValueError("To run generated embeddings, please set the 'self.token' variable at the top of the annealer_graph class in converter/qiskit/annealer_graph.py to your DWave Ocean access token.")
+
+        try:
+            from dwave.system.samplers import DWaveSampler
+            dwaveinstalled='y'
+        except:
+            dwaveinstalled='n'
+
+        if dwaveinstalled=='y' and self.token!='':
+        
+            self.sampler = DWaveSampler(endpoint='https://cloud.dwavesys.com/sapi', token = self.token, solver = 'DW_2000Q_2_1')
+
+            for i in range(len(self.fullnodelist)):
+                if self.fullnodelist[i] not in self.sampler.nodelist:
+                    #print(self.fullnodelist[i])
+                    self.unavailablenodes.append(self.fullnodelist[i])
+            print("{} qubits unavailable".format(len(self.unavailablenodes)))
+
+            for i in range(len(self.fulledgelist)):
+                if self.fulledgelist[i] not in self.sampler.edgelist:
+                    #print(self.fulledgelist[i])
+                    #if (self.fulledgelist[i][0] not in self.unavailablenodes) and (self.fulledgelist[i][1] not in self.unavailablenodes):
+                    #    print("  ^^^!!!")
+                    self.unavailablecouplers.append(self.fulledgelist[i])
+            print("{} couplers unavailable".format(len(self.unavailablecouplers)),"\n")
+       
+            dont = input("Avoid use of qubits coupled to broken qubits (y/n)? ")
+            # still should put broken qubits in list though - make it do this later
+            if dont == 'y':
+                for n in self.unavailablenodes:
+                    self.dontuse.append(n)
+                for c in self.unavailablecouplers:
+                    if c[0] not in self.dontuse:
+                        self.dontuse.append(c[0])
+                    if c[1] not in self.dontuse:
+                        self.dontuse.append(c[1])
+
+            # remove gatecells that contain broken qubits
+            skip = input("Skip gate cells with broken qubits (y/n)? ")
+            if skip == 'y':
+                for node in self.dontuse:
+                    unavailtopleft = node - node%8
+                    if unavailtopleft in self.topleftofgatecells:
+                        if self.topleftofgatecells.index(unavailtopleft) not in self.skipgates:
+                            self.skipgates.append(self.topleftofgatecells.index(unavailtopleft))
+                            print("Not using gate cell {} due to unavailability of qubit {} or because of the unavailabilty of couplers associated with it.".format(self.skipgates[-1], node))
+
+        else:
+            print("Using full chimera graph")
 
     def generatefulledgelist(self):
         fulledgelist = list()
