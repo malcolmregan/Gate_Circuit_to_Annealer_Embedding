@@ -6,22 +6,22 @@ This project is described in detail in the paper "Automatically Translating Quan
 
 ## Running Qiskit scripts with the converter
 
-0) To run or simulate generated emebeddings DWave Ocean Python package is required. See https://docs.ocean.dwavesys.com/en/latest/overview/install.html.
+1) To run or simulate generated embeddings DWave Ocean Python package is required. See https://docs.ocean.dwavesys.com/en/latest/overview/install.html.
 
-1) To run examples, add base directory of repository to ```PYTHONPATH```, i.e. go to repository directory and type
+2) To run examples, add base directory of repository to ```PYTHONPATH```, i.e. go to repository directory and type
 
       ```export PYTHONPATH=`pwd` ```
 
-2) Set ```self.token``` variable at the top of the ```annealer_graph``` class in ```converter/qiskit/annealer_graph.py``` to your Dwave token as a string, i.e.
+3) Set ```self.token``` variable at the top of the ```annealer_graph``` class in ```converter/qiskit/annealer_graph.py``` to your Dwave token as a string, i.e.
 
       ```token = 'DEV-########################################'```
 
       This variable must be set to run generated embeddings on DWave hardware.
 
-3) In Qiskit scripts to be translated, change the line ```import qiskit``` to ```import converter.qiskit```
+4) In Qiskit scripts to be translated, change the line ```import qiskit``` to ```import converter.qiskit```
 
 
-4) Command line flags:
+5) Command line flags:
 
       ```sim``` flag - Run ExactSolver simulation of embedding
         
