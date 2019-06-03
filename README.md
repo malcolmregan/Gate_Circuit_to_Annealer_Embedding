@@ -12,7 +12,7 @@ This project is described in detail in the paper "Automatically Translating Quan
 
       ```export PYTHONPATH=`pwd` ```
 
-3) Set ```self.token``` variable at the top of the ```annealer_graph``` class in ```converter/qiskit/annealer_graph.py``` to your Dwave token as a string, i.e.
+3) Set ```self.token``` variable at the top of the ```annealer_graph``` class in ```converter/qiskit/annealer_graph.py``` to your DWave token as a string, i.e.
 
       ```token = 'DEV-########################################'```
 
