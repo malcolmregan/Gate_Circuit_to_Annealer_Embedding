@@ -136,6 +136,7 @@ If the ```source``` command line flag is given, a script which defines and runs 
 Open Source License
 
 Copyright (c) 2019 Malcolm Regan, Brody Eastwood, Mahita Nagabhiru, and Frank Mueller
+
 All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
