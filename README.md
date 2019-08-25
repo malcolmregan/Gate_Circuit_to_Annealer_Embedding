@@ -133,7 +133,7 @@ If the ```source``` command line flag is given, a script which defines and runs 
 
 ## License
 
-Copyright 2019 Malcolm Regan, Brody Eastwood, Mahita Magabhiru, and Frank Mueller
+Copyright 2019 Malcolm Regan, Brody Eastwood, Mahita Nagabhiru, and Frank Mueller
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
